@@ -2,7 +2,7 @@
 
 Persistent Homology Transform is produced and maintained by \
 Yossi Bokor and Katharine Turner \
-<yossi.bokor@anu.edu.au> and <katharine.turner@anu.edu.au> \
+<yossi.bokor@anu.edu.au> and <katharine.turner@anu.edu.au> 
 
 This package provides an implementation of the Persistent Homology Transform, as defined in [Persistent Homology Transform for Modeling Shapes and Surfaces](https://arxiv.org/abs/1310.1030). 
 
