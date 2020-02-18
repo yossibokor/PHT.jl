@@ -11,7 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 __precompile__()
 
 
-module PHT
+module PersistentHomologyTransfer
 
 
 #### Requirements ####
@@ -403,7 +403,7 @@ function PHT(curve_points, number_of_directions) ##accepts an ARRAY of points
 	
 	pht = []
 	for i in 1:number_of_directions
-		pd = Direction_Filtration(data_n, directions[i])
+		pd = Direction_Filtration(curve_points, directions[i])
 		pht = vcat(pht, [pd])
 	end
 

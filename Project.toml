@@ -1,5 +1,5 @@
 name = "PHT"
-uuid = ""
+uuid = "8e4506b2-5217-11ea-25a3-13470ffdf3d0"
 keywords = ["topological data analysis", "persistent homology transfer"]
 license = "MIT"
 desc = "Persistent homology transfer calculations"
