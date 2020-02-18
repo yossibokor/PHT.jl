@@ -1,4 +1,4 @@
-# PHT.jl
+# PersistentHomologyTransfer.jl
 
 Persistent Homology Transform is produced and maintained by \
 Yossi Bokor and Katharine Turner \
