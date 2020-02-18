@@ -20,7 +20,7 @@ using Hungarian
 using DataFrames
 using LinearAlgebra
 using SparseArrays
-using Eirene
+# using Eirene removed while PlotlyJS issues are resolved
 
 #### Exports ####
 
