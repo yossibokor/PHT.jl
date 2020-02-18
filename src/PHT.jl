@@ -24,7 +24,8 @@ using Eirene
 
 #### Exports ####
 
-export 	Recenter,
+export 	PHT,
+		Recenter,
 		Direction_Filtration,
 		Evaluate_Barcode,
 		Total_Rank_Exact,
@@ -393,3 +394,18 @@ function Direction_Filtration(ordered_points, direction; out = "barcode") # I sh
 end
 
  
+#### Wrapper for the main function ####
+
+function PHT(curve_points, number_of_directions) ##accepts an ARRAY of points
+	
+	angles = [n*pi/(number_of_directions/2) for n in 1:number_of_directions]
+	directions = [[cos(x), sin(x)] for x in angles]
+	
+	pht = []
+	for i in 1:number_of_directions
+		pd = Direction_Filtration(data_n, directions[i])
+		pht = vcat(pht, [pd])
+	end
+
+	return pht
+end
