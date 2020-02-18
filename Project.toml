@@ -1,4 +1,5 @@
 name = "PHT"
+uuid = ""
 keywords = ["topological data analysis", "persistent homology transfer"]
 license = "MIT"
 desc = "Persistent homology transfer calculations"
