@@ -409,3 +409,5 @@ function PHT(curve_points, number_of_directions) ##accepts an ARRAY of points
 
 	return pht
 end
+
+end# module
