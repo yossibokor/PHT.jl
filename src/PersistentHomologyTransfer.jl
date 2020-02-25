@@ -47,7 +47,7 @@ export 	PHT,
 
 #### First some functions to recenter the curves ####
 function Find_Center(points)
-	n_p = size(points,1)
+	n_p = size(stem_cell,1)
 	
 	c_x = Float64(0)
 	c_y = Float64(0)
@@ -121,20 +121,30 @@ function Total_Rank_Exact(barcode)
 end
 
 
-function Total_Rank_Grid(barcode, grid)
+function Total_Rank_Grid(barcode, x_g, y_g) #the grid should be an array, with 0s in all entries below the second diagonal.
+		
+		@assert size(x_g) == size(y_g) #I should maybe change this as you don't REALLY need to use the same size grid.....
 
-	rks = []
+		n_g = size(x_g,1)
+		rks = zeros(n_g,n_g)
+		n_p = size(barcode,1)
 
-	b = grid
-	
-	for i in 1:size(b)[1]
-		append!(rks, Evaluate_Rank(barcode, b[i,:]))
+		for i in 1:n_p
+		point = barcode[i,:]
+		x_i = findfirst(>=(point[1]), x_g)
+		y_i = findfirst(<=(point[2]), y_g)
+		for j in x_i:n_g-y_i+1
+			for k in j:n_g-y_i+1
+				rks[n_g-k+1,j] += 1
+			end
+		end
 	end
-	
+
 	return rks
 
 end
 
+#=
 function Total_Rank_Auto(barcode, delta, top_right_corner)
 
 	rks = []
@@ -156,11 +166,12 @@ function Total_Rank_Auto(barcode, delta, top_right_corner)
 	return b, rks
 
 end
+=#
 
 function Combine_Rank_Functions(list_of_barcodes, grid)
 
 	
-	rks = zeros(size(grid)[1],1)
+	rks = zeros(size(grid))
 	
 	
 	n_b = length(list_of_barcodes)
@@ -206,7 +217,7 @@ function Create_Average_Heat_Map(list_of_barcodes, x_list, y_list)
 	return p1
 end
 
-function Create_Heat_Map(list_of_barcode, x_list, y_list)
+function Create_Heat_Map(barcode, x_list, y_list)
 	
 	f(x,y) =  begin
 					if x > y
@@ -341,8 +352,7 @@ function Average_Discretised_Rank(list_of_disc_ranks)
 end
 
 
-function Direction_Filtration(ordered_points, direction; out = "barcode") # I should read the PHT paper and then figure out how to do the shifts for things which arent centered.
-	# we need to create the information Eirene requires, so lets do that
+function Direction_Filtration(ordered_points, direction; out = "barcode")
 	number_of_points = length(ordered_points[:,1]) #number of points
 	heights = zeros(number_of_points) #empty array to be changed to heights for filtration
 	fv = zeros(2*number_of_points) #blank fv Eirene
