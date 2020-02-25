@@ -41,7 +41,8 @@ export 	PHT,
 		Weighted_Inner_Product,
 		Weighted_Inner_Product_Matrix,
 		Principal_Component_Scores,
-		Average_Discretised_Rank
+		Average_Discretised_Rank,
+		unittest
 		
 		
 
@@ -394,7 +395,7 @@ function Direction_Filtration(ordered_points, direction; out = "barcode")
 	S  = sparse(D) 	# converting as required for Eirene
 	rv = S.rowval 	# converting as required for Eirene
 	cp = S.colptr	# converting as required for Eirene
-	C = eirene(rv=rv,cp=cp,ev=ev,fv=fv) # put it all into Eirene
+	C = Eirene.eirene(rv=rv,cp=cp,ev=ev,fv=fv) # put it all into Eirene
 	
 	if out == "barcode"
 		return barcode(C, dim=0)
@@ -418,6 +419,39 @@ function PHT(curve_points, number_of_directions) ##accepts an ARRAY of points
 	end
 
 	return pht
+end
+
+
+
+#### Unittets ####
+function test_1()
+	return PHT([0,0,0],0)
+end
+
+function test_2()
+	pht = PHT([1 1; 5 5], 1)
+	if pht == [0.9999999999999998 4.999999999999999]
+		return []
+	else
+		println("Error: test_2, pht = ")
+		return pht
+	end
+end
+
+function unittest()
+
+	x = Array{Any}(undef, 2)
+	
+	x[1] = test_1()
+	x[2] = test_2()
+	
+	for p 	= 	1:length(x)
+		if !isempty(x[p])
+			println(p)
+			return x
+		end
+	end
+	return []
 end
 
 end# module
