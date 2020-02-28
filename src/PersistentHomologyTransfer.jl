@@ -412,14 +412,15 @@ function PHT(curve_points, directions) ##accepts an ARRAY of points
 	
 	if typeof(directions) ==  Int64
 		println("auto generating directions")
-		dirs = Array{Float64}(undef, 2, directions)
+		dirs = Array{Float64}(undef, directions,2)
 		for n in 1:directions
-			dirs[1, n] = cos(n*pi/(directions/2))
-			dirs[2, n] = sin(n*pi/(directions/2))
+			dirs[n,1] = cos(n*pi/(directions/2))
+			dirs[n,2] = sin(n*pi/(directions/2))
 		end
 		println("Directions are:")
 		println(dirs)
 	else
+		println("using directions provided")
 		dirs = copy(directions)
 	end
 	pht = []
