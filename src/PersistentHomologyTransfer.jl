@@ -1,3 +1,4 @@
+
 #= License
 Copyright 2019, 2020 (c) Yossi Bokor Katharine Turner
 
@@ -407,14 +408,24 @@ end
  
 #### Wrapper for the main function ####
 
-function PHT(curve_points, number_of_directions) ##accepts an ARRAY of points
+function PHT(curve_points, directions) ##accepts an ARRAY of points
 	
-	angles = [n*pi/(number_of_directions/2) for n in 1:number_of_directions]
-	directions = [[cos(x), sin(x)] for x in angles]
-	
+	if typeof(directions) ==  Int64
+		println("auto generating directions")
+		dirs = Array{Float64}(undef, directions,2)
+		for n in 1:directions
+			dirs[n,1] = cos(n*pi/(directions/2))
+			dirs[n,2] = sin(n*pi/(directions/2))
+		end
+		println("Directions are:")
+		println(dirs)
+	else
+		println("using directions provided")
+		dirs = copy(directions)
+	end
 	pht = []
-	for i in 1:number_of_directions
-		pd = Direction_Filtration(curve_points, directions[i])
+	for i in 1:size(dirs,1)
+		pd = Direction_Filtration(curve_points, dirs[i,:])
 		pht = vcat(pht, [pd])
 	end
 
@@ -423,7 +434,7 @@ end
 
 
 
-#### Unittets ####
+#### Unittests ####
 function test_1()
 	return PHT([0,0,0],0)
 end
