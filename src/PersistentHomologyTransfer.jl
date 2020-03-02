@@ -1,4 +1,3 @@
-
 #= License
 Copyright 2019, 2020 (c) Yossi Bokor Katharine Turner
 
@@ -95,12 +94,13 @@ function Evaluate_Rank(barcode, point)
 end
 
 function Total_Rank_Exact(barcode)
+	@assert size(barcode,2) == 2
 
 	rks = []
 
 	
-	n = size(barcode)[1]
-	m = size(barcode)[1]
+	n = size(barcode,1)
+	
 	b = copy(barcode)
 	reshape(b, 2,n)
 	for i in 1:n
@@ -114,8 +114,7 @@ function Total_Rank_Exact(barcode)
 		end
 	end
 	
-	
-	for i in 1:size(b)[1]
+	for i in 1:n
 		append!(rks, Evaluate_Rank(barcode, b[i,:]))
 	end
 	return b, rks
@@ -132,15 +131,15 @@ function Total_Rank_Grid(barcode, x_g, y_g) #the grid should be an array, with 0
 		n_p = size(barcode,1)
 
 		for i in 1:n_p
-		point = barcode[i,:]
-		x_i = findfirst(>=(point[1]), x_g)
-		y_i = findfirst(<=(point[2]), y_g)
-		for j in x_i:n_g-y_i+1
-			for k in j:n_g-y_i+1
-				rks[n_g-k+1,j] += 1
+			point = barcode[i,:]
+			x_i = findfirst(>=(point[1]), x_g)
+			y_i = findfirst(<=(point[2]), y_g)
+			for j in x_i:n_g-y_i+1
+				for k in j:n_g-y_i+1
+					rks[n_g-k+1,j] += 1
+				end
 			end
 		end
-	end
 
 	return rks
 
@@ -259,6 +258,7 @@ end
 
 # Let us do PCA for the rank functions using Kate and Vanessa's paper.
 # So, I first need to calculate the pointwise norm
+#= I think this just replicates the Total_Rank_Grid function
 function PD_to_Discretised_Rank(persistence_diagram, grid_points) # grid_points should be an Mx2 matrix.
 	grid_size = size(grid_points,1)
 	
@@ -270,33 +270,35 @@ function PD_to_Discretised_Rank(persistence_diagram, grid_points) # grid_points 
 	
 	return v
 end
+=#
 
 function Set_Mean_Zero(discretised_ranks)
 	n_r = length(discretised_ranks)
-	grid_size = size(discretised_ranks[1],1)
+	println(n_r)
+	grid_size = size(discretised_ranks[1])
 	
 	for i in 1:n_r
-		@assert size(discretised_ranks[i],1) == grid_size
+		@assert size(discretised_ranks[i]) == grid_size
 	end
 	
-	mu = zeros(grid_size, 1)
+	mu = zeros(grid_size)
 	
 	for i in 1:n_r
 		mu = mu .+ discretised_ranks[i]
 	end
+	
 	mu = mu./n_r
-
+	
 	normalised = copy(discretised_ranks)
-	
 	for i in 1:n_r
-		normalised[i] = discretised_ranks[i] .- mu
+		
+		normalised[i] .-= mu
 	end
-	
 	return normalised
 end
 
 function Weighted_Inner_Product(disc_rank_1, disc_rank_2, weights)
-	
+
 	wip = sum((disc_rank_1.*disc_rank_2).*weights)
 
 	return wip
@@ -406,7 +408,7 @@ function Direction_Filtration(ordered_points, direction; out = "barcode")
 end
 
  
-#### Wrapper for the main function ####
+#### Wrapper for the PHT function ####
 
 function PHT(curve_points, directions) ##accepts an ARRAY of points
 	
@@ -433,6 +435,15 @@ function PHT(curve_points, directions) ##accepts an ARRAY of points
 end
 
 
+#### Wrapper for PCA ####
+function PCA(ranks, dimension, weights)
+	
+	normalised = Set_Mean_Zero(ranks)
+
+	D = Weighted_InnerProd_Matrix(normalised, weights)
+	
+	return Principal_Component_Scores(D, dimension)
+end
 
 #### Unittests ####
 function test_1()
