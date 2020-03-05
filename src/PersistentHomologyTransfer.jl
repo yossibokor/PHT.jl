@@ -34,9 +34,6 @@ export 	PHT,
 		Combine_Rank_Functions,
 		Average_Rank,
 		Create_Heat_Map,
-		Create_Average_Heat_Map,
-		Average_Rank_Distance,
-		PD_to_Discretised_Rank,
 		Set_Mean_Zero,
 		Weighted_Inner_Product,
 		Weighted_Inner_Product_Matrix,
@@ -145,31 +142,7 @@ function Total_Rank_Grid(barcode, x_g, y_g) #the grid should be an array, with 0
 
 end
 
-#=
-function Total_Rank_Auto(barcode, delta, top_right_corner)
-
-	rks = []
-	
-	b = Array{Float64}(undef, 0, 2)
-	x_number = ceil(top_right_corner[1]/delta)
-	y_number = ceil(top_right_corner[2]/delta)
-	
-	for i in 1:x_number
-		for j in (i-1):y_number
-			b =vcat(b, [0+i*delta 0+j*delta])
-		end
-	end
-	
-	
-	for i in 1:size(b)[1]
-		append!(rks, Evaluate_Rank(barcode, b[i,:]))
-	end
-	return b, rks
-
-end
-=#
-
-function Combine_Rank_Functions(list_of_barcodes, grid)
+function Average_Rank_Grid(list_of_barcodes, x_g, y_g)
 
 	
 	rks = zeros(size(grid))
@@ -178,7 +151,7 @@ function Combine_Rank_Functions(list_of_barcodes, grid)
 	n_b = length(list_of_barcodes)
 	
 	for i in 1:n_b
-		rk_i = Total_Rank_Grid(list_of_barcodes[i], grid)
+		rk_i = Total_Rank_Grid(list_of_barcodes[i], x_g,y_g)
 		rks = rks .+ rk_i
 	end
 	
@@ -187,7 +160,7 @@ function Combine_Rank_Functions(list_of_barcodes, grid)
 	return rks
 end
 
-function Average_Rank(x,y, list_of_barcodes)
+function Average_Rank_Point(list_of_barcodes, x,y)
 	
 	rk = 0
 	n_b = length(list_of_barcodes)
@@ -201,24 +174,7 @@ function Average_Rank(x,y, list_of_barcodes)
 	end
 end
 
-function Create_Average_Heat_Map(list_of_barcodes, x_list, y_list)
-	
-	f(x,y) =  begin
-					if x > y
-						return 0
-					else
-						return Average_Rank(x,y, list_of_barcodes)
-					end
-				end
-				
-	#Z = map(f, X, Y)
-
-	p1 = contour(x_list, y_list, f, fill=true)
-
-	return p1
-end
-
-function Create_Heat_Map(barcode, x_list, y_list)
+function Create_Heat_Map(barcode, x_g, y_g)
 	
 	f(x,y) =  begin
 					if x > y
@@ -230,47 +186,14 @@ function Create_Heat_Map(barcode, x_list, y_list)
 				
 	#Z = map(f, X, Y)
 
-	p1 = contour(x_list, y_list, f, fill=true)
+	p1 = contour(x_g, y_g, f, fill=true)
 
 	return p1
-end
-
-function Average_Rank_Distance(list_1, list_2, x_list, y_list)
-
-	
-	f(x,y) =  begin
-					if x > y
-						return 0
-					else
-						difference = Average_Rank(x,y, list_1) - Average_Rank(x,y, list_2)
-						return difference
-					end
-				end
-				
-	#Z = map(f, X, Y)
-
-	p1 = contour(x_list, y_list, f, fill=true)
-
-	return p1
-	
 end
 
 
 # Let us do PCA for the rank functions using Kate and Vanessa's paper.
 # So, I first need to calculate the pointwise norm
-#= I think this just replicates the Total_Rank_Grid function
-function PD_to_Discretised_Rank(persistence_diagram, grid_points) # grid_points should be an Mx2 matrix.
-	grid_size = size(grid_points,1)
-	
-	v = Array{Float64}(undef, 1, grid_size)
-	
-	for i in 1:grid_size
-		v[i] = Evaluate_Rank(persistence_diagram, grid_points[i,:])
-	end
-	
-	return v
-end
-=#
 
 function Set_Mean_Zero(discretised_ranks)
 	n_r = length(discretised_ranks)
