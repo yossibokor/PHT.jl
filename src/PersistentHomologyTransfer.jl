@@ -312,9 +312,11 @@ function Direction_Filtration(ordered_points, direction; out = "barcode")
 		D[i,(i+number_of_points)]=1 # create boundary matrix and put in entries
 	end
 	
-	for i in 1:(number_of_points-1)
+	for i in 2:(number_of_points)
 		D[i, (i+number_of_points-1)]=1 # put in entries for boundary matrix
 	end
+	
+	D[1, (2*number_of_points)]=1
 	
 	ev = [number_of_points, number_of_points] # template ev for Eirene
 	
