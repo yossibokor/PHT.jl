@@ -20,7 +20,7 @@ using Hungarian
 using DataFrames
 using LinearAlgebra
 using SparseArrays
-using Eirene #removed while PlotlyJS issues are resolved
+using Eirene
 
 #### Exports ####
 
@@ -212,10 +212,9 @@ function Set_Mean_Zero(discretised_ranks)
 	
 	mu = mu./n_r
 	
-	normalised = copy(discretised_ranks)
+	normalised = []
 	for i in 1:n_r
-		
-		normalised[i] .-= mu
+		append!(normalised, [discretised_ranks[i] .- mu])
 	end
 	return normalised
 end
