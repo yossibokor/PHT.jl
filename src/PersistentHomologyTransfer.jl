@@ -32,7 +32,7 @@ export 	PHT,
 		Total_Rank_Grid,
 		Total_Rank_Auto,
 		Combine_Rank_Functions,
-		Average_Rank,
+		Average_Rank_Grid,
 		Create_Heat_Map,
 		Set_Mean_Zero,
 		Weighted_Inner_Product,
@@ -145,7 +145,7 @@ end
 function Average_Rank_Grid(list_of_barcodes, x_g, y_g)
 
 	
-	rks = zeros(size(grid))
+	rks = zeros(length(x_g),length(y_g))
 	
 	
 	n_b = length(list_of_barcodes)

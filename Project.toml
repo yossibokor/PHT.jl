@@ -4,7 +4,7 @@ keywords = ["topological data analysis", "persistent homology transfer"]
 license = "MIT"
 desc = "Persistent homology transfer calculations"
 author = "Yossi Bokor <yossi.bokor@anu.edu.au>"
-version = "0.1.2"
+version = "0.1.5"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -15,11 +15,9 @@ LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
-julia = "1"
-CSV = "0.5.16"
-SparseArrays = "^1"
-Hungarian = "^0"
-Eirene = "1"
+CSV = "0.5.16, 0.6"
 DataFrames = "0.20.0"
-
-
+Eirene = "1"
+Hungarian = "^0"
+SparseArrays = "^1"
+julia = "1"

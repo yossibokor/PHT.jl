@@ -11,7 +11,7 @@ This package provides an implementation of the Persistent Homology Transform, as
 Currently, the best way to install PersistentHomologyTransfer is to run the following in `Julia`:
 ```julia
 using Pkg
-Pkg.add(PersistentHomologyTransfer)
+Pkg.add("PersistentHomologyTransfer")
 ```
 ## Functionality
 - PersistentHomologyTransfer computes the Persistent Homology Transform of simple, closed curves in $\mathbb{R}^2$.
