@@ -44,7 +44,7 @@ export 	PHT,
 
 #### First some functions to recenter the curves ####
 function Find_Center(points)
-	n_p = size(stem_cell,1)
+	n_p = size(points,1)
 	
 	c_x = Float64(0)
 	c_y = Float64(0)
