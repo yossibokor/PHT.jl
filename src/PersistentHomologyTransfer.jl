@@ -58,7 +58,8 @@ function Find_Center(points)
 end
 
 function Recenter(points)
-		
+	
+	points = convert(Array{Flaot64}, points)
 	center = Find_Center(points)
 	
 	for i in 1:size(points)[1]
