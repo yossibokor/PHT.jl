@@ -1,3 +1,4 @@
+# This package has been deprecated in favour of [DiscretePersistentHomologyTransform.jl](https://github.com/yossibokor/DiscretePersistentHomologyTransform.jl)
 # PersistentHomologyTransfer.jl
 
 Persistent Homology Transform is produced and maintained by \
