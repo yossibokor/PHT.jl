@@ -31,7 +31,6 @@ export 	PHT,
 		Total_Rank_Exact,
 		Total_Rank_Grid,
 		Total_Rank_Auto,
-		Combine_Rank_Functions,
 		Average_Rank_Grid,
 		Create_Heat_Map,
 		Set_Mean_Zero,
@@ -45,7 +44,7 @@ export 	PHT,
 
 #### First some functions to recenter the curves ####
 function Find_Center(points)
-	n_p = size(stem_cell,1)
+	n_p = size(points,1)
 	
 	c_x = Float64(0)
 	c_y = Float64(0)
@@ -59,7 +58,8 @@ function Find_Center(points)
 end
 
 function Recenter(points)
-		
+	
+	points = convert(Array{Float64}, points)
 	center = Find_Center(points)
 	
 	for i in 1:size(points)[1]

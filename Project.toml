@@ -2,9 +2,9 @@ name = "PersistentHomologyTransfer"
 uuid = "8e4506b2-5217-11ea-25a3-13470ffdf3d0"
 keywords = ["topological data analysis", "persistent homology transfer"]
 license = "MIT"
-desc = "Persistent homology transfer calculations"
+desc = "Discrete persistent homology transfer calculations"
 author = "Yossi Bokor <yossi.bokor@anu.edu.au>"
-version = "0.1.6"
+version = "0.1.7"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
