@@ -326,6 +326,8 @@ function Direction_Filtration(ordered_points, direction; out = "barcode")
 	
 	if out == "barcode"
 		return barcode(C, dim=0)
+	elseif out == "one_cycle"
+		return barcode(C, dim=0), maximum(heights)
 	else
 		return C
 	end
@@ -334,7 +336,7 @@ end
  
 #### Wrapper for the PHT function ####
 
-function PHT(curve_points, directions) ##accepts an ARRAY of points
+function PHT(curve_points, directions; one_cycle = "n") ##accepts an ARRAY of points
 	
 	if typeof(directions) ==  Int64
 		println("auto generating directions")
@@ -350,12 +352,29 @@ function PHT(curve_points, directions) ##accepts an ARRAY of points
 		dirs = copy(directions)
 	end
 	pht = []
-	for i in 1:size(dirs,1)
-		pd = Direction_Filtration(curve_points, dirs[i,:])
-		pht = vcat(pht, [pd])
+	
+	if one_cycle == "y"
+		c_1 = []
 	end
-
-	return pht
+	
+	for i in 1:size(dirs,1)
+		
+		if one_cycle == "y"
+			pd,c_1 = Direction_Filtration(curve_points, dirs[i,:], out ="one_cycle")
+			append!(cycle_1, c_1)
+			pht = vcat(pht, [pd])
+		else
+			pd = Direction_Filtration(curve_points, dirs[i,:])
+			pht = vcat(pht, [pd])
+		end
+	end
+	
+	if one_cycle == "y"
+		return pht, cycle_1
+		
+	else
+		return pht
+	end
 end
 
 
